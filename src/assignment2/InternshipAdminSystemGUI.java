@@ -9,16 +9,6 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
-/**
- *
- * @author User
- * 
- * Member B: 
- * Class: DIT2B21
- * Student ID: 2523398
- * Name: TAN MU LING
- * 
- */
 public class InternshipAdminSystemGUI extends javax.swing.JFrame {
     
     // Stores student and company data
