@@ -6,16 +6,6 @@ package assignment2;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author User
- * 
- * Member A: 
- * Class: DIT2B21
- * Student ID: 2537159
- * Name: PAY YU MI
- * 
- */
 public class InternshipEnquirySystemGUI extends javax.swing.JFrame {
     // Stores student and company data
     private Student[] students;
