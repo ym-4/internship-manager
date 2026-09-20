@@ -1,0 +1,801 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package assignment2;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author User
+ * 
+ * Member A: 
+ * Class: DIT2B21
+ * Student ID: 2537159
+ * Name: PAY YU MI
+ * 
+ */
+public class InternshipEnquirySystemGUI extends javax.swing.JFrame {
+    // Stores student and company data
+    private Student[] students;
+    private Company[] companies;
+    private int currentStudentIndex = 0;
+    private int currentRatingIndex = 0;
+    private FileHandler fh;
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InternshipEnquirySystemGUI.class.getName());
+
+    /**
+     * Creates new form InternshipAdminSystemGUI
+     */
+    public InternshipEnquirySystemGUI(Student[] students, Company[] companies, FileHandler fh) {
+        initComponents();
+        this.students = students;
+        this.companies = companies;
+        this.fh = fh;
+        
+        // show first student when program starts
+        displayStudent(0);
+    }
+    
+    // Function 1: Display All Internships
+    public void displayStudent(int index) {
+        currentStudentIndex = index;
+        currentRatingIndex = 0;
+
+        Student s = students[index];
+
+        // change titled border for Student Info counter
+        panelStudentInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                    "Student " + (index + 1) + " of " + students.length));
+        
+        // display student info
+        txtStudentName.setText(s.getName());
+        txtStudentID.setText(s.getStudentID());
+        txtStudentCourse.setText(s.getCourseOfStudy());
+        txtStudentCompany.setText(s.getAssignedCompany().getCompanyName());
+        
+        // display 1st rating period
+        displayRating(0);
+        
+        // Disable prev button if on first student
+        btnSIPrevious.setEnabled(currentStudentIndex > 0);
+        // Disable next button if on last student
+        btnSINext.setEnabled(currentStudentIndex < students.length - 1);
+    }
+
+    // Display rating period
+    public void displayRating(int index) {
+        currentRatingIndex = index;
+
+        Student s = students[currentStudentIndex];
+        int[] marks = s.getPerformanceRating();
+        int[] weeks = s.getWeeksAssessed();
+
+        // No ratings available
+        if (marks.length == 0) {
+            txtStudentGradePoints.setBackground(java.awt.Color.WHITE);
+            txtStudentMarks.setBackground(java.awt.Color.WHITE);
+            
+            // disable buttons
+            btnRPPrevious.setEnabled(false);
+            btnRPNext.setEnabled(false);
+            
+            panelRatingPeriod.setBorder(javax.swing.BorderFactory.createTitledBorder("Rating Period - No Ratings"));
+            txtStudentMarks.setText("-");
+            txtStudentweeks.setText("-");
+            txtStudentGradePoints.setText("-");
+            return;
+        }
+
+        // change titled border RP counter
+        panelRatingPeriod.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                    "Rating Period " + (index + 1) + " of " + marks.length));
+        
+        // Display role and allowance
+        txtStudentRole.setText(s.getInternshipRole());
+        txtStudentAllowance.setText("$" + String.format("%.2f", s.getAssignedCompany().getInternshipAllowance()) + "/mth");
+
+        // Display RP data (converted to string)
+        txtStudentMarks.setText(String.valueOf(marks[index]));
+        txtStudentweeks.setText(String.valueOf(weeks[index]));
+        txtStudentGradePoints.setText(String.valueOf(s.toGradePoint(marks[index])));
+        
+        // Colour-coded ratings
+        int gp = s.toGradePoint(marks[index]);
+        if (gp >= 3) {
+            // green
+            txtStudentGradePoints.setBackground(new java.awt.Color(144, 238, 144)); 
+            txtStudentMarks.setBackground(new java.awt.Color(144, 238, 144));
+        } else if (gp == 2) {
+            // yellow
+            txtStudentGradePoints.setBackground(new java.awt.Color(255, 255, 153));
+            txtStudentMarks.setBackground(new java.awt.Color(255, 255, 153));
+        } else {
+            // red
+            txtStudentGradePoints.setBackground(new java.awt.Color(255, 102, 102)); 
+            txtStudentMarks.setBackground(new java.awt.Color(255, 102, 102));
+        }
+        
+        // Disable prev button if on first rating period
+        btnRPPrevious.setEnabled(currentRatingIndex > 0);
+        // Disable next button if on last rating period
+        btnRPNext.setEnabled(currentRatingIndex < s.getPerformanceRating().length - 1);
+    }
+    
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("checked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        btnGroupSearchType = new javax.swing.ButtonGroup();
+        panelRatingPeriod = new javax.swing.JPanel();
+        lblStudentRole = new javax.swing.JLabel();
+        lblStudentAllowance = new javax.swing.JLabel();
+        lblStudentWeeks = new javax.swing.JLabel();
+        txtStudentRole = new javax.swing.JTextField();
+        txtStudentAllowance = new javax.swing.JTextField();
+        txtStudentweeks = new javax.swing.JTextField();
+        lblStudentMarks = new javax.swing.JLabel();
+        txtStudentMarks = new javax.swing.JTextField();
+        lblStudentGradePoints = new javax.swing.JLabel();
+        txtStudentGradePoints = new javax.swing.JTextField();
+        btnRPPrevious = new javax.swing.JButton();
+        btnRPNext = new javax.swing.JButton();
+        panelStudentInfo = new javax.swing.JPanel();
+        lblStudentName = new javax.swing.JLabel();
+        lblStudentID = new javax.swing.JLabel();
+        lblStudentCourse = new javax.swing.JLabel();
+        lblStudentCompany = new javax.swing.JLabel();
+        txtStudentName = new javax.swing.JTextField();
+        txtStudentID = new javax.swing.JTextField();
+        txtStudentCourse = new javax.swing.JTextField();
+        txtStudentCompany = new javax.swing.JTextField();
+        btnSIPrevious = new javax.swing.JButton();
+        btnSINext = new javax.swing.JButton();
+        panelSearch = new javax.swing.JPanel();
+        txtSearchInput = new javax.swing.JTextField();
+        radStudent = new javax.swing.JRadioButton();
+        radCompany = new javax.swing.JRadioButton();
+        btnSearch = new javax.swing.JButton();
+        cmbStudentSort = new javax.swing.JComboBox<>();
+        lblStudentSort = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        panelHeader = new javax.swing.JPanel();
+        lblHeader = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtAreaResults = new javax.swing.JTextArea();
+        btnExit = new javax.swing.JButton();
+        lblResultsTitle = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Internship Enquiry System");
+        setAutoRequestFocus(false);
+        setBackground(new java.awt.Color(255, 238, 217));
+        setForeground(java.awt.Color.darkGray);
+        setResizable(false);
+
+        panelRatingPeriod.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Rating Period 1 of 2", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LiSu", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
+        panelRatingPeriod.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+
+        lblStudentRole.setFont(new java.awt.Font("LiSu", 1, 12)); // NOI18N
+        lblStudentRole.setText("Role: ");
+
+        lblStudentAllowance.setFont(new java.awt.Font("LiSu", 1, 12)); // NOI18N
+        lblStudentAllowance.setText("Allowance:");
+
+        lblStudentWeeks.setFont(new java.awt.Font("LiSu", 1, 12)); // NOI18N
+        lblStudentWeeks.setText("Weeks:");
+
+        txtStudentRole.setEditable(false);
+        txtStudentRole.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+
+        txtStudentAllowance.setEditable(false);
+        txtStudentAllowance.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+
+        txtStudentweeks.setEditable(false);
+        txtStudentweeks.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+
+        lblStudentMarks.setFont(new java.awt.Font("LiSu", 1, 12)); // NOI18N
+        lblStudentMarks.setText("Marks:");
+
+        txtStudentMarks.setEditable(false);
+        txtStudentMarks.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+        txtStudentMarks.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        lblStudentGradePoints.setFont(new java.awt.Font("LiSu", 1, 12)); // NOI18N
+        lblStudentGradePoints.setText("Grade Points:");
+
+        txtStudentGradePoints.setEditable(false);
+        txtStudentGradePoints.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+        txtStudentGradePoints.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        btnRPPrevious.setBackground(new java.awt.Color(188, 219, 246));
+        btnRPPrevious.setFont(new java.awt.Font("SimSun", 1, 12)); // NOI18N
+        btnRPPrevious.setText("< Previous");
+        btnRPPrevious.addActionListener(this::btnRPPreviousActionPerformed);
+
+        btnRPNext.setBackground(new java.awt.Color(188, 219, 246));
+        btnRPNext.setFont(new java.awt.Font("SimSun", 1, 12)); // NOI18N
+        btnRPNext.setText("Next >");
+        btnRPNext.addActionListener(this::btnRPNextActionPerformed);
+
+        javax.swing.GroupLayout panelRatingPeriodLayout = new javax.swing.GroupLayout(panelRatingPeriod);
+        panelRatingPeriod.setLayout(panelRatingPeriodLayout);
+        panelRatingPeriodLayout.setHorizontalGroup(
+            panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRatingPeriodLayout.createSequentialGroup()
+                .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRatingPeriodLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnRPPrevious)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRPNext))
+                    .addGroup(panelRatingPeriodLayout.createSequentialGroup()
+                        .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelRatingPeriodLayout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelRatingPeriodLayout.createSequentialGroup()
+                                        .addComponent(lblStudentRole)
+                                        .addGap(32, 32, 32))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRatingPeriodLayout.createSequentialGroup()
+                                        .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblStudentWeeks)
+                                            .addComponent(lblStudentAllowance))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtStudentRole, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                                    .addComponent(txtStudentAllowance)
+                                    .addComponent(txtStudentweeks)))
+                            .addGroup(panelRatingPeriodLayout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelRatingPeriodLayout.createSequentialGroup()
+                                        .addGap(23, 23, 23)
+                                        .addComponent(lblStudentMarks))
+                                    .addComponent(txtStudentMarks, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50)
+                                .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtStudentGradePoints, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblStudentGradePoints))))
+                        .addGap(0, 17, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panelRatingPeriodLayout.setVerticalGroup(
+            panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRatingPeriodLayout.createSequentialGroup()
+                .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRatingPeriodLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblStudentRole)
+                            .addComponent(txtStudentRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelRatingPeriodLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtStudentAllowance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblStudentAllowance))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblStudentWeeks)
+                            .addComponent(txtStudentweeks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblStudentGradePoints)
+                    .addComponent(lblStudentMarks))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtStudentGradePoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtStudentMarks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addGroup(panelRatingPeriodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRPNext)
+                    .addComponent(btnRPPrevious))
+                .addGap(9, 9, 9))
+        );
+
+        panelStudentInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Student 1 of 3", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("LiSu", 1, 12), new java.awt.Color(0, 51, 153))); // NOI18N
+
+        lblStudentName.setFont(new java.awt.Font("LiSu", 1, 12)); // NOI18N
+        lblStudentName.setText("Name:");
+
+        lblStudentID.setFont(new java.awt.Font("LiSu", 1, 12)); // NOI18N
+        lblStudentID.setText("Student ID:");
+
+        lblStudentCourse.setFont(new java.awt.Font("LiSu", 1, 12)); // NOI18N
+        lblStudentCourse.setText("Course:");
+
+        lblStudentCompany.setFont(new java.awt.Font("LiSu", 1, 12)); // NOI18N
+        lblStudentCompany.setText("Company:");
+
+        txtStudentName.setEditable(false);
+        txtStudentName.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+
+        txtStudentID.setEditable(false);
+        txtStudentID.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+
+        txtStudentCourse.setEditable(false);
+        txtStudentCourse.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+
+        txtStudentCompany.setEditable(false);
+        txtStudentCompany.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+
+        btnSIPrevious.setBackground(new java.awt.Color(188, 219, 246));
+        btnSIPrevious.setFont(new java.awt.Font("SimSun", 1, 12)); // NOI18N
+        btnSIPrevious.setText("< Previous");
+        btnSIPrevious.addActionListener(this::btnSIPreviousActionPerformed);
+
+        btnSINext.setBackground(new java.awt.Color(188, 219, 246));
+        btnSINext.setFont(new java.awt.Font("SimSun", 1, 12)); // NOI18N
+        btnSINext.setText("Next >");
+        btnSINext.addActionListener(this::btnSINextActionPerformed);
+
+        javax.swing.GroupLayout panelStudentInfoLayout = new javax.swing.GroupLayout(panelStudentInfo);
+        panelStudentInfo.setLayout(panelStudentInfoLayout);
+        panelStudentInfoLayout.setHorizontalGroup(
+            panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelStudentInfoLayout.createSequentialGroup()
+                .addGroup(panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelStudentInfoLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblStudentName)
+                            .addComponent(lblStudentCourse)
+                            .addComponent(lblStudentCompany)
+                            .addComponent(lblStudentID)))
+                    .addGroup(panelStudentInfoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnSIPrevious)))
+                .addGroup(panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelStudentInfoLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtStudentName, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                            .addComponent(txtStudentID)
+                            .addComponent(txtStudentCourse)
+                            .addComponent(txtStudentCompany))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelStudentInfoLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSINext)
+                        .addContainerGap())))
+        );
+        panelStudentInfoLayout.setVerticalGroup(
+            panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelStudentInfoLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblStudentName)
+                    .addComponent(txtStudentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtStudentID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblStudentID))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtStudentCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblStudentCourse))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtStudentCompany, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblStudentCompany))
+                .addGap(18, 18, 18)
+                .addGroup(panelStudentInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSIPrevious)
+                    .addComponent(btnSINext))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelSearch.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        btnGroupSearchType.add(radStudent);
+        radStudent.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+        radStudent.setText("By Student Name");
+
+        btnGroupSearchType.add(radCompany);
+        radCompany.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+        radCompany.setText("By Company");
+
+        btnSearch.setBackground(new java.awt.Color(255, 204, 153));
+        btnSearch.setFont(new java.awt.Font("Arial Narrow", 1, 12)); // NOI18N
+        btnSearch.setText("SEARCH");
+        btnSearch.addActionListener(this::btnSearchActionPerformed);
+
+        cmbStudentSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Default", "Student ID (asc)", "Student ID (desc)", "Course (A-Z)", "Course (Z-A)" }));
+        cmbStudentSort.addActionListener(this::cmbStudentSortActionPerformed);
+
+        lblStudentSort.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+        lblStudentSort.setText("Sort by:");
+
+        jLabel1.setFont(new java.awt.Font("Yet R", 0, 12)); // NOI18N
+        jLabel1.setText("Search:");
+
+        javax.swing.GroupLayout panelSearchLayout = new javax.swing.GroupLayout(panelSearch);
+        panelSearch.setLayout(panelSearchLayout);
+        panelSearchLayout.setHorizontalGroup(
+            panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSearchLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelSearchLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelSearchLayout.createSequentialGroup()
+                                .addComponent(radStudent)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(radCompany)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSearchLayout.createSequentialGroup()
+                                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panelSearchLayout.createSequentialGroup()
+                                        .addComponent(lblStudentSort)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cmbStudentSort, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(panelSearchLayout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtSearchInput, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(8, 8, 8)))))
+                .addContainerGap())
+        );
+        panelSearchLayout.setVerticalGroup(
+            panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSearchLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblStudentSort)
+                    .addComponent(cmbStudentSort, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSearchInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radStudent)
+                    .addComponent(radCompany))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSearch)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelHeader.setBackground(new java.awt.Color(246, 254, 188));
+
+        lblHeader.setBackground(new java.awt.Color(255, 255, 255));
+        lblHeader.setFont(new java.awt.Font("MS UI Gothic", 1, 24)); // NOI18N
+        lblHeader.setForeground(new java.awt.Color(80, 67, 45));
+        lblHeader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblHeader.setText("Internship Enquiry System");
+
+        javax.swing.GroupLayout panelHeaderLayout = new javax.swing.GroupLayout(panelHeader);
+        panelHeader.setLayout(panelHeaderLayout);
+        panelHeaderLayout.setHorizontalGroup(
+            panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelHeaderLayout.createSequentialGroup()
+                .addGap(177, 177, 177)
+                .addComponent(lblHeader)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelHeaderLayout.setVerticalGroup(
+            panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelHeaderLayout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(lblHeader)
+                .addGap(14, 14, 14))
+        );
+
+        jScrollPane1.setBackground(null);
+        jScrollPane1.setBorder(null);
+
+        txtAreaResults.setEditable(false);
+        txtAreaResults.setBackground(new java.awt.Color(255, 255, 255));
+        txtAreaResults.setColumns(20);
+        txtAreaResults.setLineWrap(true);
+        txtAreaResults.setRows(3);
+        txtAreaResults.setWrapStyleWord(true);
+        txtAreaResults.setBorder(null);
+        jScrollPane1.setViewportView(txtAreaResults);
+
+        btnExit.setBackground(new java.awt.Color(255, 153, 153));
+        btnExit.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnExit.setForeground(new java.awt.Color(255, 255, 255));
+        btnExit.setText("EXIT");
+        btnExit.addActionListener(this::btnExitActionPerformed);
+
+        lblResultsTitle.setFont(new java.awt.Font("MoeumT R", 1, 14)); // NOI18N
+        lblResultsTitle.setForeground(new java.awt.Color(0, 153, 153));
+        lblResultsTitle.setText(" ~ Results ~");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelStudentInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelRatingPeriod, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(24, 24, 24))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(lblResultsTitle)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addComponent(panelHeader, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(251, 251, 251)
+                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(panelSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblResultsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelStudentInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(panelRatingPeriod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSIPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSIPreviousActionPerformed
+        if (currentStudentIndex > 0) {
+            displayStudent(currentStudentIndex - 1);
+        }
+    }//GEN-LAST:event_btnSIPreviousActionPerformed
+
+    private void btnRPPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRPPreviousActionPerformed
+        if (currentRatingIndex > 0) {
+            displayRating(currentRatingIndex - 1);
+        }
+    }//GEN-LAST:event_btnRPPreviousActionPerformed
+
+    private void btnSINextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSINextActionPerformed
+        if (currentStudentIndex < students.length - 1) {
+            displayStudent(currentStudentIndex + 1);
+        }
+    }//GEN-LAST:event_btnSINextActionPerformed
+
+    private void btnRPNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRPNextActionPerformed
+        Student s = students[currentStudentIndex];
+       
+        if (currentRatingIndex < s.getPerformanceRating().length - 1) {
+            displayRating(currentRatingIndex + 1);
+        }
+    }//GEN-LAST:event_btnRPNextActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String search = txtSearchInput.getText().trim();
+
+        // Check if no input
+        if (search.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a search query.", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Check if no rad btn selected
+        if (!radStudent.isSelected() && !radCompany.isSelected()) {
+            // red warning text
+            txtAreaResults.setForeground(java.awt.Color.RED);
+            txtAreaResults.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+            txtAreaResults.setText("Please choose to search by student name or company.");
+            return;
+        }
+
+        // Function 2: Search by Student Name
+        if (radStudent.isSelected()) {
+            boolean found = false;
+
+            for (int i = 0; i < students.length; i++) {
+                if (students[i].getName().equalsIgnoreCase(search)) {
+                    displayStudent(i);
+ 
+                    txtAreaResults.setForeground(java.awt.Color.BLACK);
+                    txtAreaResults.setFont(new java.awt.Font("Yet R", java.awt.Font.PLAIN, 12));
+                    txtAreaResults.setText(students[i].getName() + "'s details are displayed.");
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                txtAreaResults.setForeground(java.awt.Color.RED);
+                txtAreaResults.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+                txtAreaResults.setText("No such student found.");
+                
+                // clear display
+                txtStudentName.setText("");
+                txtStudentID.setText("");
+                txtStudentCourse.setText("");
+                txtStudentCompany.setText("");
+                txtStudentRole.setText("");
+                txtStudentAllowance.setText("");
+                txtStudentMarks.setText("");
+                txtStudentweeks.setText("");
+                txtStudentGradePoints.setText("");
+            }
+
+        // Function 3: Search by Company Name
+        } else if (radCompany.isSelected()) {
+            int count = 0;
+            double totalScore = 0.0;
+            int stdIndex = -1;
+
+            for (int i = 0; i < students.length; i++) {
+                if (students[i].getAssignedCompany().getCompanyName().equalsIgnoreCase(search)) {
+                    if (stdIndex == -1) stdIndex = i;
+                    count++;
+                    totalScore += students[i].calcOverallInternshipScore();
+                }
+            }
+
+            if (count == 0) {
+                txtAreaResults.setForeground(java.awt.Color.RED);
+                txtAreaResults.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+                txtAreaResults.setText("Company not found.");
+                
+                // clear display
+                txtStudentName.setText("");
+                txtStudentID.setText("");
+                txtStudentCourse.setText("");
+                txtStudentCompany.setText("");
+                txtStudentRole.setText("");
+                txtStudentAllowance.setText("");
+                txtStudentMarks.setText("");
+                txtStudentweeks.setText("");
+                txtStudentGradePoints.setText("");
+                
+            } else {
+                // display 1st matching student in panel
+                displayStudent(stdIndex);
+                double avgScore = totalScore / count;
+                
+                txtAreaResults.setForeground(java.awt.Color.BLACK);
+                txtAreaResults.setFont(new java.awt.Font("Yet R", java.awt.Font.PLAIN, 12));
+                txtAreaResults.setText("Students at " + search + ": " + count 
+                        + "\nAverage Internship Score: " + String.format("%.2f", avgScore));
+            }
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+       // Confirm before exit
+        int response = JOptionPane.showConfirmDialog(this, 
+                "Are you sure you want to exit?", 
+                "Quit", JOptionPane.YES_NO_OPTION);
+
+        if (response == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(this, "Thank you for using the Internship Enquiry System!");
+            System.exit(0);
+        }
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void cmbStudentSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStudentSortActionPerformed
+        String selected = (String) cmbStudentSort.getSelectedItem();
+
+        // Restore original deafult sort from file
+        if ("Default".equals(selected)) {
+            fh.readCompanyAndStudent("src/assignment2/internships.txt");
+            students = fh.getStudents();
+            displayStudent(0);
+            return;
+        }
+        
+        // sort based on selected option
+        for (int i = 0; i < students.length - 1; i++) {
+            for (int j = 0; j < students.length - 1 - i; j++) {
+                boolean shouldSwap = false;
+
+                switch (selected) {
+                    case "Student ID (asc)":
+                        shouldSwap = students[j].getStudentID().compareTo(students[j + 1].getStudentID()) > 0;
+                        break;
+                    case "Student ID (desc)":
+                        shouldSwap = students[j].getStudentID().compareTo(students[j + 1].getStudentID()) < 0;
+                        break;
+                    case "Course (A-Z)":
+                        shouldSwap = students[j].getCourseOfStudy().compareTo(students[j + 1].getCourseOfStudy()) > 0;
+                        break;
+                    case "Course (Z-A)":
+                        shouldSwap = students[j].getCourseOfStudy().compareTo(students[j + 1].getCourseOfStudy()) < 0;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (shouldSwap) {
+                    Student temp = students[j];
+                    students[j] = students[j + 1];
+                    students[j + 1] = temp;
+                }
+            }
+        }
+
+        // display 1st std
+        displayStudent(0);
+    }//GEN-LAST:event_cmbStudentSortActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        FileHandler fh = new FileHandler();
+        
+        // Read company+student data from file 
+        fh.readCompanyAndStudent("src/assignment2/internships.txt");
+        
+        // Get companies and students
+        Student[] students = fh.getStudents();
+        Company[] companies = fh.getCompanies();
+        
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new InternshipEnquirySystemGUI(students, companies, fh).setVisible(true));
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExit;
+    private javax.swing.ButtonGroup btnGroupSearchType;
+    private javax.swing.JButton btnRPNext;
+    private javax.swing.JButton btnRPPrevious;
+    private javax.swing.JButton btnSINext;
+    private javax.swing.JButton btnSIPrevious;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JComboBox<String> cmbStudentSort;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblHeader;
+    private javax.swing.JLabel lblResultsTitle;
+    private javax.swing.JLabel lblStudentAllowance;
+    private javax.swing.JLabel lblStudentCompany;
+    private javax.swing.JLabel lblStudentCourse;
+    private javax.swing.JLabel lblStudentGradePoints;
+    private javax.swing.JLabel lblStudentID;
+    private javax.swing.JLabel lblStudentMarks;
+    private javax.swing.JLabel lblStudentName;
+    private javax.swing.JLabel lblStudentRole;
+    private javax.swing.JLabel lblStudentSort;
+    private javax.swing.JLabel lblStudentWeeks;
+    private javax.swing.JPanel panelHeader;
+    private javax.swing.JPanel panelRatingPeriod;
+    private javax.swing.JPanel panelSearch;
+    private javax.swing.JPanel panelStudentInfo;
+    private javax.swing.JRadioButton radCompany;
+    private javax.swing.JRadioButton radStudent;
+    private javax.swing.JTextArea txtAreaResults;
+    private javax.swing.JTextField txtSearchInput;
+    private javax.swing.JTextField txtStudentAllowance;
+    private javax.swing.JTextField txtStudentCompany;
+    private javax.swing.JTextField txtStudentCourse;
+    private javax.swing.JTextField txtStudentGradePoints;
+    private javax.swing.JTextField txtStudentID;
+    private javax.swing.JTextField txtStudentMarks;
+    private javax.swing.JTextField txtStudentName;
+    private javax.swing.JTextField txtStudentRole;
+    private javax.swing.JTextField txtStudentweeks;
+    // End of variables declaration//GEN-END:variables
+}

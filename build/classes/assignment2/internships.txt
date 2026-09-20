@@ -1,0 +1,8 @@
+3
+TechCorp;Alice Tan;10000.0
+DataWave;Bob Lim;2200.0
+CloudSoft;Carol Ng;2800.0
+3
+DIT/FT/2A/01;S1234567A;John Tan;TechCorp;Software Developer;2;4;75;4;66
+DAAA/FT/2B/02;S2345678B;Mary Goh;DataWave;Data Analyst;3;4;80;4;72;6;90
+DIT/FT/2A/03;S3456789C;Jack Lim;CloudSoft;Cloud Engineer;2;6;55;4;68
