@@ -6,21 +6,6 @@ package assignment2;
 
 import java.io.Serializable;
 
-/**
- *
- * @author User
- * 
- * Student 1: 
- * Class: DIT2B21
- * Student ID: 2537159
- * Name: PAY YU MI
- * 
- * Student 2: 
- * Class: DIT2B21
- * Student ID: 2523398
- * Name: TAN MU LING
- * 
- */
 public class Student implements Serializable {
     // ---------------------------------------------
     // Instance Variables
